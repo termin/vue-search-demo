@@ -4,8 +4,7 @@
       v-if="root"
       v-model="value"
       clearable
-      :placeholder="'Select ' + type"
-      @change="change">
+      :placeholder="'Select ' + type">
       <el-option
         v-for="item in options"
         :key="item"
@@ -19,8 +18,7 @@
       clearable
       filterable
       :disabled="disabled"
-      :placeholder="'Select ' + type"
-      @change="change">
+      :placeholder="'Select ' + type">
       <el-option
         v-for="item in options"
         :key="item"
@@ -87,9 +85,6 @@ export default {
     }
   },
   methods: {
-    // change: function(current) {
-    //   this.$emit('change', current)
-    // },
     setOptions: function() {
       var v = this
       let urls = {
@@ -99,9 +94,9 @@ export default {
 
       axios.get(urls[this.type] + this.parent)
       .then(function(response) {
-        console.log('getOptions response', response.data)
+        // console.log('getOptions response', response.data)
         let d = response.data
-        console.log('response', d)
+        // console.log('response', d)
         v.options = d
       })
       .catch(function(error) {

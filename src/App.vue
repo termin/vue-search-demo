@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     changedFilter: function(current, pos) {
-      console.log('changed(root)', current, pos)
+      // console.log('changed(root)', current, pos)
       if (pos === 'selectedGenre') {
         this.selectedGenre = current
       }

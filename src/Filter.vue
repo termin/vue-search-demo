@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     setOptions: function() {
-      var v = this
+      let v = this
       let urls = {
         'Artist': 'http://localhost:4567/artists?genre=',
         'Album': 'http://localhost:4567/albums?artist=',

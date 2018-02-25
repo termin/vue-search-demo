@@ -8,19 +8,25 @@
       </h1>
       <myFilter id="genre-filter" type="Genre" :root = "true" @change="changedFilter($event, 'selectedGenre')" />
       <myFilter id="artist-filter" type="Artist" :parent="selectedGenre" @change="changedFilter($event, 'selectedArtist')" />
-      <myFilter id="album-filter" type="Album" :parent="selectedArtist" />
+      <myFilter id="album-filter" type="Album" :parent="selectedArtist" @change="filled" />
     </section>
 
     <section id="result">
       <h1>
         Result
       </h1>
+      <ul class="tracks-container">
+        <li v-for="(track, index) in tracks" :key="index">
+          {{ track }}
+        </li>
+      </ul>
     </section>
   </div>
 </template>
 
 <script>
 import myFilter from './Filter.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -32,6 +38,7 @@ export default {
       selectedGenre: "",
       selectedArtist: "",
       selectedAlbum: "",
+      tracks: [],
     }
   },
   methods: {
@@ -44,6 +51,19 @@ export default {
         this.selectedArtist = current
       }
     },
+    filled: function(current) {
+      this.selectedAlbum = current
+      let v = this
+      let url = `http://localhost:4567/tracks?genre=${this.selectedGenre}&artist=${this.selectedArtist}&album=${this.selectedAlbum}`
+
+      axios.get(url)
+      .then(function(response) {
+        v.tracks = response.data
+      })
+      .catch(function(error) {
+        console.log('getOptions', error)
+      })
+    }
   }
 }
 </script>
@@ -58,25 +78,12 @@ export default {
   margin-top: 60px;
 }
 
-h1, h2 {
-  font-weight: normal;
-}
-
 ul {
   list-style-type: none;
   padding: 0;
 }
 
 li {
-  display: inline-block;
   margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-section {
-  margin-bottom: 10px;
 }
 </style>

@@ -1,36 +1,54 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+
+    <section>
+      <h1>
+        Search
+      </h1>
+      <myFilter id="genre-filter" type="Genre" :root = "true" @change="changedFilter($event, 'selectedGenre')" />
+      <myFilter id="artist-filter" type="Artist" :parent="selectedGenre" @change="changedFilter($event, 'selectedArtist')" />
+      <myFilter id="album-filter" type="Album" :parent="selectedArtist" />
+    </section>
+
+    <section id="result">
+      <h1>
+        Result
+      </h1>
+    </section>
   </div>
 </template>
 
 <script>
+import myFilter from './Filter.vue'
+
 export default {
   name: 'App',
+  components: {
+    myFilter,
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      selectedGenre: "",
+      selectedArtist: "",
+      selectedAlbum: "",
     }
+  },
+  methods: {
+    changedFilter: function(current, pos) {
+      console.log('changed(root)', current, pos)
+      if (pos === 'selectedGenre') {
+        this.selectedGenre = current
+      }
+      if (pos === 'selectedArtist') {
+        this.selectedArtist = current
+      }
+    },
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -56,5 +74,9 @@ li {
 
 a {
   color: #42b983;
+}
+
+section {
+  margin-bottom: 10px;
 }
 </style>
